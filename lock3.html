@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07070b" />
+  <title>TikTok Bloqueado</title>
+
+  <style>
+    :root{
+      --bg1:#07070b;
+      --bg2:#0e0f18;
+      --card:rgba(255,255,255,.07);
+      --stroke:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.75);
+    }
+
+    *{ box-sizing:border-box; }
+
+    html, body{
+      margin:0;
+      padding:0;
+      width:100%;
+      height:100%;
+      background:
+        radial-gradient(1000px 700px at 20% 10%, rgba(255, 0, 120, .10), transparent 55%),
+        radial-gradient(900px 650px at 80% 20%, rgba(0, 180, 255, .10), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui;
+      color:var(--text);
+    }
+
+    body{
+      min-height:100dvh;
+      display:flex;
+      justify-content:center;
+
+      /* AQUÍ está la clave:
+         usamos padding-top para bajarlo,
+         pero mantenemos el fondo completo */
+      padding-top:calc(55vh + env(safe-area-inset-top));
+    }
+
+    .card{
+      width:min(560px, 94vw);
+      border-radius:24px;
+      padding:32px 26px 28px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      box-shadow:0 26px 90px rgba(0,0,0,.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      text-align:center;
+      transform: translateY(-50%);
+    }
+
+    .icon{
+      width:68px;
+      height:68px;
+      margin:0 auto 16px;
+      border-radius:20px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 14px 44px rgba(0,0,0,.4);
+      font-size:32px;
+    }
+
+    h1{
+      margin:0 0 14px;
+      font-size:26px;
+      font-weight:650;
+      letter-spacing:.3px;
+    }
+
+    .phrase{
+      max-width:480px;
+      margin:0 auto 18px;
+      padding:14px 18px;
+      font-size:17px;
+      line-height:1.45;
+      color:var(--muted);
+      border-radius:16px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    .counter{
+      font-size:42px;
+      font-weight:700;
+      letter-spacing:2px;
+      font-variant-numeric: tabular-nums;
+      transition: color .25s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" role="group" aria-label="Pantalla de bloqueo TikTok">
+    <div class="icon">🔒</div>
+    <h1>TikTok Bloqueado</h1>
+
+    <div class="phrase">
+      Este tiempo es para construir, no para distraerte.
+    </div>
+
+    <div class="counter" id="counter">4</div>
+  </div>
+
+  <script>
+    // Contador 4 → 0 con color verde → rojo
+    const max = 4;
+    let t = max;
+    const el = document.getElementById("counter");
+
+    function render(n){
+      el.textContent = n;
+      const ratio = n / max;          // 1 → 0
+      const hue = Math.round(120 * ratio); // verde → rojo
+      el.style.color = `hsl(${hue} 85% 60%)`;
+    }
+
+    render(t);
+
+    const timer = setInterval(() => {
+      t--;
+      if (t < 0){
+        clearInterval(timer);
+        return;
+      }
+      render(t);
+    }, 1000);
+  </script>
+
+</body>
+</html>
